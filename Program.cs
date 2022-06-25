@@ -14,13 +14,15 @@ builder.Services
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo()); });
-
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo {Title = "ML interaction API", Description = "API docs", Version = "v1"});
+});
 var app = builder.Build();
 
 app.UseSwagger();
 
-app.UseSwaggerUI(p => { p.SwaggerEndpoint("/swagger/v1/swagger.json", string.Empty); });
+app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1"); });
 
 app.MapPost("/predict",
     async (PredictionEnginePool<MlModel.ModelInput, MlModel.ModelOutput> predictionEnginePool,
